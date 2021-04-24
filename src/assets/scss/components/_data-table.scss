@@ -1,0 +1,77 @@
+.p-datatable {
+
+    // Table head
+    .p-datatable-thead  {
+        background-color: $lightBlue;
+
+        > tr > th {
+            width: calc(100%/7);
+            background-color: transparent;
+            font-weight: 500;
+        }
+    }
+
+    // Table body
+    .p-datatable-tbody {
+        img {
+            width: 43px;
+            height: 68px;
+            object-fit: cover;
+        }
+
+        > tr > td {
+            padding: 0.5rem;
+
+            button {
+                width: 43px;
+                height: 43px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid $mainBlue;
+                border-radius: 6px;
+
+                i {
+                  color: $mainBlue;
+                }
+
+                &:hover {
+                    background-color: $lightBlue;
+                }
+
+                &:focus {
+                    outline:none;
+                }
+            }
+        }
+    }
+    
+    // Table pagination
+    .p-paginator  {
+        justify-content: flex-start;
+        padding:  2rem 0.5rem;
+        border: none !important;
+
+        .p-paginator-element  {
+            border: 1px solid $teal;
+            font-weight: 500;
+
+            &:hover {
+                border: 1px solid $teal !important;
+                color: $teal !important;
+                background-color: $lightBlue !important;
+            }
+        }
+
+        .p-paginator-pages .p-paginator-element  {
+            font-family: 'Poppins', sans-serif;
+            color: $teal;
+        }
+
+        .p-highlight {
+            border: 1px solid $mainBlue !important;
+            background-color: $mainBlue !important;
+            color: $white !important;
+        }
+    }
+}

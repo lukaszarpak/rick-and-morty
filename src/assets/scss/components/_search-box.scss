@@ -1,0 +1,67 @@
+// global stylling for search input
+.search-input {
+    .p-inputtext {
+      border-radius: 0 12px 12px 0;
+      max-width: 80px;
+      width: 100%;
+  
+        @media screen and (min-width: 386px) {
+            max-width: 120px;
+        }
+
+        @media screen and (min-width: 520px) {
+          max-width: 200px;
+        }
+    }
+  
+    > i:last-of-type {
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      margin: 0;
+      color: $mainBlue !important;
+      font-weight: 800;
+    }
+  }
+
+
+//global styling for select dropdown
+.p-treeselect-panel  {
+    border: 1px solid #ced4da;
+    border-radius: 0 0 12px 12px;
+    box-shadow: none;
+    overflow: hidden;
+
+    .p-treeselect-items-wrapper {
+        width: 100px !important;
+        border-radius: 0 0 13px 13px;
+    
+        .p-tree-selectable{
+            padding: 0;
+    
+            .p-treenode {
+                padding: 0;
+    
+                .p-treenode-content {
+                    padding: 0.5rem;
+                    border-bottom: 1px solid #ced4da;
+                    border-radius: 0;
+                    border-top: none;
+    
+    
+                    .p-tree-toggler {
+                        display: none;
+                    }
+        
+                    .p-treenode-icon {
+                        display: none;
+                    }
+                }
+
+                &:last-of-type .p-treenode-content {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}
