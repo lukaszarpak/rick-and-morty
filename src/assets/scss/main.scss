@@ -1,6 +1,9 @@
-/* Utils */
-@import './utils/colors';
-@import './utils/font';
+/* Settings */
+@import './settings/colors';
+@import './settings/fonts';
+
+/* Icons */
+@import './icons/icons.scss';
 
 /* Components */
 @import './components/search-box';

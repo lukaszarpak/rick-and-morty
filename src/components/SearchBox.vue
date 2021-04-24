@@ -4,15 +4,15 @@
         Search by
     </div>
     <TreeSelect
-        v-model="selectedSearchType"
-        :options="searchByOptions"
+        v-model="selectedSearchOption"
+        :options="searchOptions"
         selectionMode="single"
     />
     <span class="p-input-icon-right search-input">
         <InputText
           type="text"
-          v-model="selectedSearchOption" />
-        <i class="pi pi-search" />
+          v-model="searchValue" />
+        <i class="i-icon search" />
     </span>
   </div>
 </template>
@@ -24,7 +24,7 @@ import TreeSelect from 'primevue/treeselect';
 import InputText from 'primevue/inputtext';
 
 /* Data */
-import searchByOptions from '../data/searchByOptions';
+import searchOptions from '../data/searchByOptions';
 
 export default defineComponent({
   components: {
@@ -32,13 +32,13 @@ export default defineComponent({
     InputText,
   },
   setup() {
-    const selectedSearchType = ref({ 0: true });
-    const value = ref('');
+    const selectedSearchOption = ref({ 0: true });
+    const searchValue = ref('');
 
     return {
-      selectedSearchType,
-      value,
-      searchByOptions,
+      selectedSearchOption,
+      searchValue,
+      searchOptions,
     };
   },
 });

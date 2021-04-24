@@ -30,5 +30,4 @@ export default defineComponent({
 .max-width-240 {
   max-width: 240px;
 }
-
 </style>

@@ -1,5 +1,4 @@
 .p-datatable {
-
     // Table head
     .p-datatable-thead  {
         background-color: $lightBlue;
@@ -8,6 +7,7 @@
             width: calc(100%/7);
             background-color: transparent;
             font-weight: 500;
+            padding: 1rem 0.5rem;
         }
     }
 
@@ -22,7 +22,7 @@
         > tr > td {
             padding: 0.5rem;
 
-            button {
+            .p-button {
                 width: 43px;
                 height: 43px;
                 display: flex;
@@ -30,6 +30,7 @@
                 justify-content: center;
                 border: 2px solid $mainBlue;
                 border-radius: 6px;
+                background-color: $white;
 
                 i {
                   color: $mainBlue;
@@ -37,10 +38,6 @@
 
                 &:hover {
                     background-color: $lightBlue;
-                }
-
-                &:focus {
-                    outline:none;
                 }
             }
         }

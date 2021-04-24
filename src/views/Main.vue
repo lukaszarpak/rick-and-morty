@@ -1,13 +1,13 @@
 <template>
-    <div class="py-8 select-table-data">
+    <div class="py-8 select-data-wrapper">
       <span
         class="mr-12"
-        :class="selected === 0 ? 'selected' : ''"
+        :class="!selected ? 'selected' : ''"
         @click="select(0)">
         All Characters
       </span>
       <span
-        :class="selected === 1 ? 'selected' : ''"
+        :class="selected  ? 'selected' : ''"
         @click="select(1)">
         Favorites
       </span>
@@ -38,8 +38,10 @@
           header="Add To Favorites">
           <template #body="slotProps">
             <Button
-              class="p-button-rounded p-button-success p-mr-2"
-              @click="addToFavorites(slotProps.data)"><i class="pi pi-star" /></Button>
+              class="p-button-rounded p-mr-2"
+              @click="addToFavorites(slotProps.data)">
+              <i class="i-icon star" />
+            </Button>
           </template>
         </Column>
     </DataTable>
@@ -50,6 +52,7 @@ import { defineComponent, ref } from 'vue';
 /* Prime Components */
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Button from 'primevue/button';
 
 /* Data */
 import testData from '../data/test';
@@ -58,6 +61,7 @@ export default defineComponent({
   components: {
     DataTable,
     Column,
+    Button,
   },
   setup() {
     const columnsSchema = ref([
@@ -74,21 +78,25 @@ export default defineComponent({
       selected.value = index;
     };
 
+    const addToFavorites = () => {
+      console.log('test');
+    };
+
     return {
-      select, selected, columnsSchema, characters,
+      select, selected, columnsSchema, characters, addToFavorites,
     };
   },
 });
 </script>
 <style lang="scss" scoped>
-.select-table-data {
+.select-data-wrapper {
   font-weight: 500;
   display: flex;
   align-items: center;
 
   span {
     position: relative;
-    color: #11B0C8;
+    color: $mainBlue;
     cursor: pointer;
 
     &.selected::after {
@@ -98,9 +106,8 @@ export default defineComponent({
       left: 0;
       width: 100%;
       height: 3px;
-      background-color: #11B0C8;
+      background-color: $mainBlue;
     }
   }
-
 }
 </style>
