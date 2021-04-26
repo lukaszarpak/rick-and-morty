@@ -40,11 +40,12 @@
           field="gender"
           header="Gender">
           <template #body="slotProps">
-            <i
+            <div class="flex items-center">
+              <i
                 class="i-icon"
-                :class="getIconClass(slotProps.data.gender.toLowerCase())"
-            ></i>
-            {{ slotProps.data.gender }}
+                :class="slotProps.data.gender.toLowerCase()"/>
+              <span class="ml-1">{{ slotProps.data.gender }}</span>
+            </div>
           </template>
         </Column>
         <Column
@@ -134,27 +135,6 @@ export default defineComponent({
       return removeFromFavorites(data);
     };
 
-    const getIconClass = (data: any) => {
-      let className = '';
-      switch (data) {
-        case 'male':
-          className = 'male';
-          break;
-        case 'female':
-          className = 'female';
-          break;
-        case 'unknown':
-          className = 'minus';
-          break;
-        case 'genderless':
-          className = 'exit';
-          break;
-        default:
-          break;
-      }
-      return className;
-    };
-
     return {
       queryResults,
       selectAllCharactersTab,
@@ -167,7 +147,6 @@ export default defineComponent({
       loading,
       error,
       favoriteCharacters,
-      getIconClass,
     };
   },
 });

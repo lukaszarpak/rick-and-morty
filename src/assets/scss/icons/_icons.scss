@@ -11,10 +11,10 @@
     &.female::before {
         content: '\e904'; 
     }
-    &.exit::before {
+    &.genderless::before {
         content: '\e903';
     }
-    &.minus::before {
+    &.unknown::before {
         content: '\e906';
     }
     &.star::before {
