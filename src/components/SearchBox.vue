@@ -4,7 +4,8 @@
         Search by
     </div>
     <TreeSelect
-        v-model="selectedSearchOption"
+        v-model="searchBy"
+        @change="updateSearchBy(searchBy)"
         :options="searchOptions"
         selectionMode="single"
         class="selector"
@@ -12,13 +13,13 @@
     <span class="p-input-icon-right search-input">
         <InputText
           type="text"
-          v-model="searchValue" />
+          v-model="searchValue"/>
         <i class="i-icon search" />
     </span>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 
 /* Prime Components */
 import TreeSelect from 'primevue/treeselect';
@@ -32,14 +33,23 @@ export default defineComponent({
     TreeSelect,
     InputText,
   },
-  setup() {
-    const selectedSearchOption = ref({ 0: true });
+  setup(props, { emit }) {
     const searchValue = ref('');
+    const searchBy = ref({ 0: true });
+
+    const updateSearchBy = (v: any) => {
+      emit('updateSearchBy', v);
+    };
+
+    watch(searchValue, newVal => {
+      emit('updateSearchValue', newVal);
+    });
 
     return {
-      selectedSearchOption,
-      searchValue,
+      searchBy,
+      updateSearchBy,
       searchOptions,
+      searchValue,
     };
   },
 });

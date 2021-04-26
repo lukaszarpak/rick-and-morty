@@ -17,7 +17,7 @@
     <span v-if="!isAllCharactersTab && !favoriteCharacters.length">No favorite characters selected</span>
     <DataTable
       v-else-if="allCharacters && !loading && !error"
-      :value="isAllCharactersTab ? allCharacters : favoriteCharacters"
+      :value="filteredCharacters"
       :rows="8"
       :paginator="true"
       paginatorTemplate="PrevPageLink PageLinks NextPageLink"
@@ -70,7 +70,10 @@
     </DataTable>
 </template>
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+/* eslint-disable */
+import {
+  defineComponent, ref, watch, computed, inject
+} from 'vue';
 
 /* Prime Components */
 import DataTable from 'primevue/datatable';
@@ -90,6 +93,9 @@ export default defineComponent({
     Button,
   },
   setup() {
+    const searchBy: any = inject('searchBy', 'name')
+    const searchValue: any = inject('searchValue')
+
     const columnsSchema = ref([
       { field: 'id', header: 'Character ID' },
       { field: 'name', header: 'Name' },
@@ -98,8 +104,8 @@ export default defineComponent({
       { field: 'last-episode', header: 'Last Episode' },
     ]);
 
-    const allCharacters = ref<Readonly<any>>([]);
     const isAllCharactersTab = ref(true);
+    const allCharacters = ref<Readonly<any>>([]);
     const favoriteCharacters = ref<any[]>([]);
 
     const { result, loading, error } = useQuery(allCharactersQuery);
@@ -108,6 +114,13 @@ export default defineComponent({
     watch(queryResults, () => {
       allCharacters.value = queryResults.value.map((queryResult: any) => ({ ...queryResult, favorite: false }));
     });
+    const characters = computed(() => isAllCharactersTab.value ? allCharacters : favoriteCharacters);
+
+    const filteredCharacters = computed(() => {
+      return Object.values((characters as any).value.value).filter((character: any) => {
+        return character[searchBy.value].toLowerCase().includes(searchValue.value.toLowerCase())
+      })
+    })
 
     const findSelectedIndex = (data: any) => allCharacters.value.findIndex((character: any) => character.id === data.id);
 
@@ -143,10 +156,12 @@ export default defineComponent({
       handleSelection,
       addToFavorites,
       removeFromFavorites,
-      allCharacters,
       loading,
       error,
+      characters,
+      allCharacters,
       favoriteCharacters,
+      filteredCharacters,
     };
   },
 });
