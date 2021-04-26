@@ -14,8 +14,9 @@
     </div>
     <span v-if="loading">Loading data...</span>
     <span v-if="error">{{error}}</span>
+    <span v-if="!isAllCharactersTab && !favoriteCharacters.length">No favorite characters selected</span>
     <DataTable
-      v-if="allCharacters && !loading && !error"
+      v-else-if="allCharacters && !loading && !error"
       :value="isAllCharactersTab ? allCharacters : favoriteCharacters"
       :rows="8"
       :paginator="true"
@@ -53,7 +54,6 @@
           field="last-episode"
           header="Last Episode"/>
         <Column
-          :exportable="false"
           field="add-to-favorites"
           header="Add To Favorites">
           <template #body="slotProps">
@@ -72,7 +72,6 @@
 import { defineComponent, ref, watch } from 'vue';
 
 /* Prime Components */
-import Tooltip from 'primevue/tooltip';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';

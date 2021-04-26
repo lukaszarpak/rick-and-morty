@@ -3,7 +3,7 @@
     <nav class="container flex flex-col md:flex-row items-center py-2">
       <img
         class="w-full max-width-240 py-2"
-        src="./assets/logo.png" />
+        src="./assets/img/logo.png" />
       <SearchBox />
     </nav>
   </header>
