@@ -2,21 +2,21 @@
     <div class="py-8 select-data-wrapper">
       <span
         class="mr-12"
-        :class="!selected ? 'selected' : ''"
-        @click="select(0)">
+        :class="isAllCharactersTab ? 'selected' : ''"
+        @click="selectAllCharactersTab(true)">
           All Characters
       </span>
       <span
-        :class="selected  ? 'selected' : ''"
-        @click="select(1)">
+        :class="!isAllCharactersTab  ? 'selected' : ''"
+        @click="selectAllCharactersTab(false)">
           Favorites
       </span>
     </div>
-    <span v-if="loading">loading...</span>
+    <span v-if="loading">Loading data...</span>
     <span v-if="error">{{error}}</span>
     <DataTable
-      v-if="allCharacters"
-      :value="!selected ? allCharacters : favoriteCharacters"
+      v-if="allCharacters && !loading && !error"
+      :value="isAllCharactersTab ? allCharacters : favoriteCharacters"
       :rows="8"
       :paginator="true"
       paginatorTemplate="PrevPageLink PageLinks NextPageLink"
@@ -40,9 +40,10 @@
           field="add-to-favorites"
           header="Add To Favorites">
           <template #body="slotProps">
-            <!-- eslint-disable-next-line max-len -->
-            <!-- eslint-disable-next-line max-len eslint-disable-next-line vue/max-attributes-per-line -->
-            <Button :disabled="slotProps.data.selected && !selected" class="p-button-rounded p-mr-2" :class="selected ? 'is-favorite' : ''" @click="!selected ? addToFavorites(slotProps.data) : removeFromFavorites(slotProps.data)">
+            <Button
+                class="p-button-rounded p-mr-2"
+                :class="slotProps.data.favorite ? 'is-favorite' : ''"
+                @click="handleSelection(slotProps.data)">
               <i class="i-icon star" />
             </Button>
           </template>
@@ -78,42 +79,48 @@ export default defineComponent({
       { field: 'last-episode', header: 'Last Episode' },
     ]);
 
-    const { result, loading, error } = useQuery(allCharactersQuery);
-    // const allCharacters = useResult(result, null, data => data.characters.results);
-    const queryResults = useResult(result, null, data => data.characters.results);
     const allCharacters = ref<Readonly<any>>([]);
-
-    const selected = ref(0);
+    const isAllCharactersTab = ref(true);
     const favoriteCharacters = ref<any[]>([]);
 
-    const select = (index: number) => {
-      selected.value = index;
+    const { result, loading, error } = useQuery(allCharactersQuery);
+    const queryResults = useResult(result, null, data => data.characters.results);
+
+    watch(queryResults, () => {
+      allCharacters.value = queryResults.value.map((queryResult: any) => ({ ...queryResult, favorite: false }));
+    });
+
+    const findSelectedIndex = (data: any) => allCharacters.value.findIndex((character: any) => character.id === data.id);
+
+    const selectAllCharactersTab = (index: boolean) => {
+      isAllCharactersTab.value = index;
     };
 
     const addToFavorites = (data: any) => {
-      const index = allCharacters.value.findIndex((character: any) => character.id === data.id);
-      allCharacters.value[index].selected = true;
-      console.log(index);
-
+      const index = findSelectedIndex(data);
+      allCharacters.value[index].favorite = true;
       favoriteCharacters.value.push(allCharacters.value[index]);
     };
+
     const removeFromFavorites = (data: any) => {
-      const index = allCharacters.value.findIndex((character: any) => character.id === data.id);
-      allCharacters.value[index].selected = false;
-      const index1 = favoriteCharacters.value.findIndex(character => character.id === data.id);
-      favoriteCharacters.value.splice(index1, 1);
+      const index = findSelectedIndex(data);
+      allCharacters.value[index].favorite = false;
+      const favoriteCharacterIndex = favoriteCharacters.value.findIndex(character => character.id === data.id);
+      favoriteCharacters.value.splice(favoriteCharacterIndex, 1);
     };
 
-    watch(queryResults, () => {
-      // eslint-disable-next-line max-len
-      allCharacters.value = queryResults.value.map((queryResult: any) => ({ ...queryResult, selected: false }));
-      console.log(allCharacters.value);
-    });
+    const handleSelection = (data: any) => {
+      if (isAllCharactersTab.value) {
+        return data.favorite ? removeFromFavorites(data) : addToFavorites(data);
+      }
+      return removeFromFavorites(data);
+    };
 
     return {
-      select,
-      selected,
+      selectAllCharactersTab,
+      isAllCharactersTab,
       columnsSchema,
+      handleSelection,
       addToFavorites,
       removeFromFavorites,
       allCharacters,

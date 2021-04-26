@@ -32,5 +32,6 @@ module.exports = {
         allowFirstLine: false,
       },
     }],
+    'max-len': ['error', { code: 160 }],
   },
 };
