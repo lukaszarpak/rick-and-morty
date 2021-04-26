@@ -4,12 +4,12 @@
         border-radius: 0 0 12px 12px;
         width: 100%;
 
-        @media screen and (min-width: 386px) {
+        @include mobile {
             max-width: 120px;
             border-radius: 0 12px 12px 0;
         }
 
-        @media screen and (min-width: 520px) {
+        @include tablet {
             max-width: 200px;
         }
     }
@@ -19,7 +19,7 @@
         right: 1rem;
         transform: translateY(-50%);
         margin: 0;
-        color: $mainBlue !important;
+        color: $mainBlue;
         font-weight: 800;
     }
 }
@@ -30,7 +30,7 @@
     border-bottom-color: transparent;
     width: 100%;
 
-    @media screen and (min-width: 386px) {
+    @include mobile {
         width: 130px;
         border-right-color: transparent;
         border-bottom-color: $lightGray;
@@ -54,7 +54,7 @@
         width: 100%;
         border-radius: 0 0 13px 13px;
 
-        @media screen and (min-width: 386px) {
+        @include mobile {
             width: 130px;
         }
     

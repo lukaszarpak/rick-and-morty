@@ -51,13 +51,13 @@ export default defineComponent({
   grid-template-columns: repeat(2, 1fr);
   width: 100%;
 
-  @media screen and (min-width: 386px) {
+  @include mobile {
     border-radius: 12px 0 0 12px;
     display: flex;
     justify-content: center;
   }
 
-  @media screen and (min-width: 768px) {
+  @include tablet {
     justify-content: flex-start;
   }
 
@@ -75,7 +75,7 @@ export default defineComponent({
     cursor: default;
     width: 100%;
 
-    @media screen and (min-width: 386px) {
+    @include mobile {
       border-radius: 12px 0 0 12px;
       border: 1px solid $lightGray;
       border-right-color: transparent;

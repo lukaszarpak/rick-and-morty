@@ -12,6 +12,7 @@ module.exports = {
       sass: {
         prependData: `
             @import "@/assets/scss/settings/_colors.scss";
+            @import "@/assets/scss/settings/_breakpoints.scss";
           `,
       },
     },
