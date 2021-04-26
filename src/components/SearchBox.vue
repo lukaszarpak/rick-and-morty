@@ -1,5 +1,5 @@
 <template>
-  <div class="flex align-center md:ml-12 py-6 md:py-0">
+  <div class="md:ml-12 py-6 md:py-0 search-box-wrapper">
     <div class="search-by-label">
         Search by
     </div>
@@ -7,6 +7,7 @@
         v-model="selectedSearchOption"
         :options="searchOptions"
         selectionMode="single"
+        class="selector"
     />
     <span class="p-input-icon-right search-input">
         <InputText
@@ -44,21 +45,43 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-// label styling
-.search-by-label {
-  height: 100%;
-  border: 1px solid #ced4da;
-  border-right: none;
-  border-radius: 12px 0 0 12px;
-  padding: 0.5rem 1rem;
-  cursor: default;
-}
 
-//select input styling
-.p-treeselect  {
-  border-right-color: transparent;
-  border-radius: 0;
-  width: 100px;
+.search-box-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+
+  @media screen and (min-width: 386px) {
+    border-radius: 12px 0 0 12px;
+    display: flex;
+    justify-content: center;
+  }
+
+  @media screen and (min-width: 768px) {
+    justify-content: flex-start;
+  }
+
+  .search-input {
+    grid-column: 1/3;
+  }
+
+  .search-by-label {  // label styling
+    height: 100%;
+    border: 1px solid $lightGray;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    border-radius: 12px 0 0 0;
+    padding: 0.5rem 1rem;
+    cursor: default;
+    width: 100%;
+
+    @media screen and (min-width: 386px) {
+      border-radius: 12px 0 0 12px;
+      border: 1px solid $lightGray;
+      border-right-color: transparent;
+      width: 130px;
+    }
+  }
 }
 
 </style>

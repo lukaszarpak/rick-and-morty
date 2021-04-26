@@ -3,32 +3,33 @@
         font-family: $icomoon;
         font-style: normal;
         font-weight: normal;
+        font-size: 22px;
     }
     &.male::before {
-        content: '\e900';
+        content: '\e905';
     }
     &.female::before {
-        content: '\e902'; 
+        content: '\e904'; 
     }
     &.exit::before {
         content: '\e903';
     }
     &.minus::before {
-        content: '\e904';
-    }
-    &.star::before {
-        content: '\e901';
-    }
-    &.search::before {
-        content: '\e905';
-    }
-    &.right-arrow::before {
         content: '\e906';
     }
-    &.left-arrow::before {
+    &.star::before {
+        content: '\e908';
+    }
+    &.search::before {
         content: '\e907';
     }
+    &.right-arrow::before {
+        content: '\e900';
+    }
+    &.left-arrow::before {
+        content: '\e902';
+    }
     &.down-arrow::before {
-        content: '\e908';
+        content: '\e901';
     }
 }

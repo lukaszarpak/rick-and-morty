@@ -30,11 +30,28 @@
           </template>
         </Column>
         <Column
-          v-for="col of columnsSchema"
-          :field="col.field"
-          :header="col.header"
-          :key="col.field">
+          field="id"
+          header="Character ID"/>
+        <Column
+          field="name"
+          header="Name"/>
+        <Column
+          field="gender"
+          header="Gender">
+          <template #body="slotProps">
+            <i
+                class="i-icon"
+                :class="getIconClass(slotProps.data.gender.toLowerCase())"
+            ></i>
+            {{ slotProps.data.gender }}
+          </template>
         </Column>
+        <Column
+          field="species"
+          header="Species"/>
+        <Column
+          field="last-episode"
+          header="Last Episode"/>
         <Column
           :exportable="false"
           field="add-to-favorites"
@@ -43,7 +60,8 @@
             <Button
                 class="p-button-rounded p-mr-2"
                 :class="slotProps.data.favorite ? 'is-favorite' : ''"
-                @click="handleSelection(slotProps.data)">
+                @click="handleSelection(slotProps.data)"
+                >
               <i class="i-icon star" />
             </Button>
           </template>
@@ -54,6 +72,7 @@
 import { defineComponent, ref, watch } from 'vue';
 
 /* Prime Components */
+import Tooltip from 'primevue/tooltip';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
@@ -116,7 +135,29 @@ export default defineComponent({
       return removeFromFavorites(data);
     };
 
+    const getIconClass = (data: any) => {
+      let className = '';
+      switch (data) {
+        case 'male':
+          className = 'male';
+          break;
+        case 'female':
+          className = 'female';
+          break;
+        case 'unknown':
+          className = 'minus';
+          break;
+        case 'genderless':
+          className = 'exit';
+          break;
+        default:
+          break;
+      }
+      return className;
+    };
+
     return {
+      queryResults,
       selectAllCharactersTab,
       isAllCharactersTab,
       columnsSchema,
@@ -127,6 +168,7 @@ export default defineComponent({
       loading,
       error,
       favoriteCharacters,
+      getIconClass,
     };
   },
 });

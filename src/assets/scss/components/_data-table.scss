@@ -80,5 +80,19 @@
             background-color: $mainBlue !important;
             color: $white !important;
         }
+        
+        .p-paginator-icon {
+            &::before {
+                font-family: $icomoon;
+            }
+
+            &.pi-angle-left::before {
+                content: '\e902';
+            }
+
+            &.pi-angle-right::before {
+                content: '\e900';
+            }
+        }
     }
 }

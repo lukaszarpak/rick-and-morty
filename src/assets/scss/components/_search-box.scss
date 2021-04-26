@@ -1,29 +1,47 @@
 // global stylling for search input
 .search-input {
     .p-inputtext {
-      border-radius: 0 12px 12px 0;
-      max-width: 80px;
-      width: 100%;
-  
+        border-radius: 0 0 12px 12px;
+        width: 100%;
+
         @media screen and (min-width: 386px) {
             max-width: 120px;
+            border-radius: 0 12px 12px 0;
         }
 
         @media screen and (min-width: 520px) {
-          max-width: 200px;
+            max-width: 200px;
         }
     }
-  
-    > i:last-of-type {
-      top: 50%;
-      right: 1rem;
-      transform: translateY(-50%);
-      margin: 0;
-      color: $mainBlue !important;
-      font-weight: 800;
-    }
-  }
 
+    > i:last-of-type {
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        margin: 0;
+        color: $mainBlue !important;
+        font-weight: 800;
+    }
+}
+
+//global styling for select
+.p-treeselect  {
+    border-radius: 0 12px 0 0;
+    border-bottom-color: transparent;
+    width: 100%;
+
+    @media screen and (min-width: 386px) {
+        width: 130px;
+        border-right-color: transparent;
+        border-bottom-color: $lightGray;
+        border-radius: 0;
+    }
+
+    .p-treeselect-trigger-icon::before {
+        font-family: $icomoon;
+        content: '\e901';
+    }
+}
 
 //global styling for select dropdown
 .p-treeselect-panel  {
@@ -33,8 +51,12 @@
     overflow: hidden;
 
     .p-treeselect-items-wrapper {
-        width: 100px !important;
+        width: 100%;
         border-radius: 0 0 13px 13px;
+
+        @media screen and (min-width: 386px) {
+            width: 130px;
+        }
     
         .p-tree-selectable{
             padding: 0;
