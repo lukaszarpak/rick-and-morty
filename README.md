@@ -4,7 +4,7 @@
 Rick And Morty is a modern single page apllication made with the newest technologies, which enhence scalability 🚀
 
 ### Available at
-[rick-and-morty-plus.netlify.app](rick-and-morty-plus.netlify.app)
+[rick-and-morty-plus.netlify.app](https://rick-and-morty-plus.netlify.app)
 
 ### Tech stack
 - [Vue3](https://v3.vuejs.org/guide/introduction.html) with composition api and provide/inject functionality
@@ -20,7 +20,7 @@ Rick And Morty is a modern single page apllication made with the newest technolo
 - Lazy fetch more data when needed
 - Add and remove favorite characters
 - Filter through all and favorite characters data based on selected filter type
-- Sort all and favorite characters based on character-id
+- Sort all and favorite characters based on name, character-id and last episode
 
 
 ### Installation
