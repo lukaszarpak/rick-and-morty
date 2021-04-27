@@ -14,13 +14,14 @@
     </div>
     <span v-if="loading">Loading data...</span>
     <span v-if="error">{{error}}</span>
-    <span v-if="!isAllCharactersTab && !favoriteCharacters.length">No favorite characters selected</span>
+    <span v-if="!isAllCharactersTab && !filteredCharacters.length">No favorite characters selected</span>
     <DataTable
-      v-else-if="allCharacters && !loading && !error"
+      v-else-if="filteredCharacters.length && !loading && !error"
       :value="filteredCharacters"
       :rows="8"
       :paginator="true"
-      paginatorTemplate="PrevPageLink PageLinks NextPageLink"
+      paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport"
+      @page="onPageChange($event)"
       responsiveLayout="scroll">
         <Column
           field="image"
@@ -52,7 +53,7 @@
           field="species"
           header="Species"/>
         <Column
-          field="last-episode"
+          field="episode"
           header="Last Episode"/>
         <Column
           field="add-to-favorites"
@@ -75,6 +76,9 @@ import {
   defineComponent, ref, watch, computed, inject
 } from 'vue';
 
+/* Data */
+import columnsSchema from '../data/columnsSchema'
+
 /* Prime Components */
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -84,7 +88,20 @@ import Button from 'primevue/button';
 import { useQuery, useResult } from '@vue/apollo-composable';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const allCharactersQuery = require('../graphql/allCharacters.query.gql');
+const fetchCharactersQuery = require('../graphql/fetchCharacters.query.gql');
+
+type episode = string
+
+interface FetchedData {
+  __typename?: string,
+  image: string,
+  id: number,
+  name: string,
+  gender: string,
+  episode: Record<episode, string>[],
+  species: string
+  favorite?: boolean
+}
 
 export default defineComponent({
   components: {
@@ -93,51 +110,55 @@ export default defineComponent({
     Button,
   },
   setup() {
-    const searchBy: any = inject('searchBy', 'name')
-    const searchValue: any = inject('searchValue')
+    /* Data */
+    const searchBy: any = inject('searchBy', 'name'),
+          searchValue: any = inject('searchValue'),
+          isAllCharactersTab = ref(true),
+          fetchedCharacters = ref<FetchedData[]>([]),
+          favoriteCharacters = ref<FetchedData[]>([]);
+    
+    let pageNumber = 1,
+        { result, loading, error, refetch } = useQuery(fetchCharactersQuery, { pageNumber }),
+        queryResults = useResult(result, null, data => data.characters.results),
+        currentPage = null,
+        pageCount = null;
 
-    const columnsSchema = ref([
-      { field: 'id', header: 'Character ID' },
-      { field: 'name', header: 'Name' },
-      { field: 'gender', header: 'Gender' },
-      { field: 'species', header: 'Species' },
-      { field: 'last-episode', header: 'Last Episode' },
-    ]);
 
-    const isAllCharactersTab = ref(true);
-    const allCharacters = ref<Readonly<any>>([]);
-    const favoriteCharacters = ref<any[]>([]);
-
-    const { result, loading, error } = useQuery(allCharactersQuery);
-    const queryResults = useResult(result, null, data => data.characters.results);
-
+    /* Computed */
     watch(queryResults, () => {
-      allCharacters.value = queryResults.value.map((queryResult: any) => ({ ...queryResult, favorite: false }));
-    });
-    const characters = computed(() => isAllCharactersTab.value ? allCharacters : favoriteCharacters);
+        const fetchedData = queryResults.value.map((queryResult: FetchedData) => ({ ...queryResult, favorite: false, episode: queryResult.episode[queryResult.episode.length - 1].episode }));
+        fetchedCharacters.value.push(...fetchedData)
+    })
+
+    watch(favoriteCharacters.value, () => {
+      favoriteCharacters.value = favoriteCharacters.value.sort((a, b) => a.id - b.id)
+    })
+
+    const characters = computed(() => isAllCharactersTab.value ? fetchedCharacters.value : favoriteCharacters.value);
 
     const filteredCharacters = computed(() => {
-      return Object.values((characters as any).value.value).filter((character: any) => {
-        return character[searchBy.value].toLowerCase().includes(searchValue.value.toLowerCase())
+      return Object.values(characters.value).filter((character: FetchedData) => {
+        return (character as any)[searchBy.value].toLowerCase().includes(searchValue.value.toLowerCase())
       })
     })
 
-    const findSelectedIndex = (data: any) => allCharacters.value.findIndex((character: any) => character.id === data.id);
+    /*Methods */
+    const findSelectedIndex = (selectedItem: any, charactersArray: any) => charactersArray.value.findIndex((character: any) => character.id === selectedItem.id);
 
     const selectAllCharactersTab = (index: boolean) => {
       isAllCharactersTab.value = index;
     };
 
     const addToFavorites = (data: any) => {
-      const index = findSelectedIndex(data);
-      allCharacters.value[index].favorite = true;
-      favoriteCharacters.value.push(allCharacters.value[index]);
+      const index = findSelectedIndex(data, fetchedCharacters);
+      fetchedCharacters.value[index].favorite = true;
+      favoriteCharacters.value.push(fetchedCharacters.value[index]);
     };
 
     const removeFromFavorites = (data: any) => {
-      const index = findSelectedIndex(data);
-      allCharacters.value[index].favorite = false;
-      const favoriteCharacterIndex = favoriteCharacters.value.findIndex(character => character.id === data.id);
+      const index = findSelectedIndex(data, fetchedCharacters);
+      const favoriteCharacterIndex = findSelectedIndex(data, favoriteCharacters);
+      fetchedCharacters.value[index].favorite = false;
       favoriteCharacters.value.splice(favoriteCharacterIndex, 1);
     };
 
@@ -148,8 +169,17 @@ export default defineComponent({
       return removeFromFavorites(data);
     };
 
+    const onPageChange = (event: any) => {
+      currentPage = event.page;
+      pageCount = event.pageCount;
+
+      if(pageCount - 1 === currentPage && isAllCharactersTab.value) {
+        pageNumber++;
+        refetch({ pageNumber })
+      }
+    }
+
     return {
-      queryResults,
       selectAllCharactersTab,
       isAllCharactersTab,
       columnsSchema,
@@ -158,10 +188,8 @@ export default defineComponent({
       removeFromFavorites,
       loading,
       error,
-      characters,
-      allCharacters,
-      favoriteCharacters,
       filteredCharacters,
+      onPageChange
     };
   },
 });

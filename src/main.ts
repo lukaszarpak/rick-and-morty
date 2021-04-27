@@ -6,7 +6,6 @@ import { DefaultApolloClient } from '@vue/apollo-composable';
 import { createApp, h, provide } from 'vue';
 import PrimeVue from 'primevue/config';
 import App from './App.vue';
-import store from './store';
 
 /* UI components */
 import 'primevue/resources/themes/saga-blue/theme.css';
@@ -33,5 +32,4 @@ createApp(
   },
 )
   .use(PrimeVue)
-  .use(store)
   .mount('#app');

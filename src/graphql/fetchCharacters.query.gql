@@ -1,0 +1,14 @@
+query fetchCharacters($pageNumber: Int) {
+    characters(page: $pageNumber) {
+        results {
+            image,
+            id,
+            name,
+            gender,
+          	episode {
+              episode,
+            },
+            species,
+        }
+    }
+}

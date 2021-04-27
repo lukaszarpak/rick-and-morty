@@ -28,6 +28,9 @@ import InputText from 'primevue/inputtext';
 /* Data */
 import searchOptions from '../data/searchByOptions';
 
+/* Types */
+import { Keys } from '../types';
+
 export default defineComponent({
   components: {
     TreeSelect,
@@ -37,8 +40,8 @@ export default defineComponent({
     const searchValue = ref('');
     const searchBy = ref({ 0: true });
 
-    const updateSearchBy = (v: any) => {
-      emit('updateSearchBy', v);
+    const updateSearchBy = (value: Record<Keys, boolean>) => {
+      emit('updateSearchBy', value);
     };
 
     watch(searchValue, newVal => {

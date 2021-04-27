@@ -59,6 +59,12 @@
         padding:  2rem 0.5rem;
         border: none !important;
 
+        .p-paginator-current {
+            color: $mainBlue;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
         .p-paginator-element  {
             border: 1px solid $teal;
             font-weight: 500;

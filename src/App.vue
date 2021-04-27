@@ -23,15 +23,19 @@ import {
 import Main from './views/Main.vue';
 import SearchBox from './components/SearchBox.vue';
 
+/* Types */
+import { Keys } from './types';
+
 export default defineComponent({
   setup() {
-    const searchBy = ref({ 0: true });
-    const searchValue = ref('');
+    const searchBy = ref<Record<number, boolean>>({ 0: true });
+    const searchValue = ref<string>('');
 
-    const updateSearchBy = (searchByValue: any) => {
+    const updateSearchBy = (searchByValue: Record<Keys, boolean>) => {
       searchBy.value = searchByValue;
     };
-    const updateSearchValue = (searchV: any) => {
+
+    const updateSearchValue = (searchV: string) => {
       searchValue.value = searchV;
     };
 
@@ -47,7 +51,6 @@ export default defineComponent({
         case '2':
           searchByValue = 'episode';
           break;
-
         default:
           break;
       }

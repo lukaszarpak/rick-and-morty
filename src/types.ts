@@ -1,0 +1,1 @@
+export type Keys = 0 | 1 | 2
