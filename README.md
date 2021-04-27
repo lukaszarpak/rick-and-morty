@@ -4,7 +4,7 @@
 Rick And Morty is a modern single page apllication made with the newest technologies, which enhence scalability 🚀
 
 ### Available at
-[rick-and-morty-plus.netlify.app](http://rick-and-morty-plus.netlify.app)
+[rick-and-morty-plus.netlify.app](https://rick-and-morty-plus.netlify.app)
 
 ### Tech stack
 - [Vue3](https://v3.vuejs.org/guide/introduction.html) with composition api and provide/inject functionality
