@@ -1,8 +1,13 @@
 // global stylling for search input
 .search-input {
+    height: 43px;
+
     .p-inputtext {
         border-radius: 0 0 12px 12px;
         width: 100%;
+        font-family: 'Poppins', sans-serif;
+        color: $teal;
+        font-weight: 500;
 
         @include mobile {
             max-width: 120px;
@@ -26,9 +31,11 @@
 
 //global styling for select
 .p-treeselect  {
+    height: 43px;
     border-radius: 0 12px 0 0;
     border-bottom-color: transparent;
     width: 100%;
+    font-weight: 500;
 
     @include mobile {
         width: 130px;
@@ -69,6 +76,15 @@
                     border-bottom: 1px solid #ced4da;
                     border-radius: 0;
                     border-top: none;
+                    font-weight: 500;
+                    
+                    &:hover {
+                        background-color: $lightBlue !important;
+                    }
+
+                    &.p-highlight {
+                        background-color: $lightBlue;
+                    }
     
     
                     .p-tree-toggler {

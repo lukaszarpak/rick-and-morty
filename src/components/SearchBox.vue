@@ -63,6 +63,7 @@ export default defineComponent({
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   width: 100%;
+  font-weight: 500;
 
   @include mobile {
     border-radius: 12px 0 0 12px;
@@ -79,14 +80,14 @@ export default defineComponent({
   }
 
   .search-by-label {  // label styling
-    height: 100%;
+    height: 43px;
+    width: 100%;
     border: 1px solid $lightGray;
     border-bottom-color: transparent;
     border-right-color: transparent;
     border-radius: 12px 0 0 0;
     padding: 0.5rem 1rem;
     cursor: default;
-    width: 100%;
 
     @include mobile {
       border-radius: 12px 0 0 12px;
