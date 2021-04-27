@@ -20,7 +20,7 @@ Rick And Morty is a modern single page apllication made with the newest technolo
 - Lazy fetch more data when needed
 - Add and remove favorite characters
 - Filter through all and favorite characters data based on selected filter type
-- Sort all and favorite characters based on character-id
+- Sort all and favorite characters based on name, character-id and last episode
 
 
 ### Installation
