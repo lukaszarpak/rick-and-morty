@@ -80,13 +80,13 @@ export default defineComponent({
   }
 
   .search-by-label {  // label styling
-    height: 43px;
+    height: 40px;
     width: 100%;
     border: 1px solid $lightGray;
     border-bottom-color: transparent;
     border-right-color: transparent;
     border-radius: 12px 0 0 0;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     cursor: default;
 
     @include mobile {
@@ -94,6 +94,7 @@ export default defineComponent({
       border: 1px solid $lightGray;
       border-right-color: transparent;
       width: 130px;
+      padding: 0.5rem 1rem;
     }
   }
 }
