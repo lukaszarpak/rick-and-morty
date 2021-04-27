@@ -73,7 +73,7 @@
 <script lang="ts">
 /* eslint-disable */
 import {
-  defineComponent, ref, watch, computed, inject
+  defineComponent, ref, watch, computed, inject, Ref
 } from 'vue';
 
 /* Data */
@@ -90,18 +90,8 @@ import { useQuery, useResult } from '@vue/apollo-composable';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fetchCharactersQuery = require('../graphql/fetchCharacters.query.gql');
 
-type episode = string
-
-interface FetchedData {
-  __typename?: string,
-  image: string,
-  id: number,
-  name: string,
-  gender: string,
-  episode: Record<episode, string>[],
-  species: string
-  favorite?: boolean
-}
+/* Types */
+import { FetchedData } from '../types'
 
 export default defineComponent({
   components: {
@@ -143,26 +133,26 @@ export default defineComponent({
     })
 
     /*Methods */
-    const findSelectedIndex = (selectedItem: any, charactersArray: any) => charactersArray.value.findIndex((character: any) => character.id === selectedItem.id);
+    const findSelectedIndex = (selectedItem: FetchedData, charactersArray: Ref<FetchedData[]>) => charactersArray.value.findIndex((character: any) => character.id === selectedItem.id);
 
     const selectAllCharactersTab = (index: boolean) => {
       isAllCharactersTab.value = index;
     };
 
-    const addToFavorites = (data: any) => {
+    const addToFavorites = (data: FetchedData) => {
       const index = findSelectedIndex(data, fetchedCharacters);
       fetchedCharacters.value[index].favorite = true;
       favoriteCharacters.value.push(fetchedCharacters.value[index]);
     };
 
-    const removeFromFavorites = (data: any) => {
+    const removeFromFavorites = (data: FetchedData) => {
       const index = findSelectedIndex(data, fetchedCharacters);
       const favoriteCharacterIndex = findSelectedIndex(data, favoriteCharacters);
       fetchedCharacters.value[index].favorite = false;
       favoriteCharacters.value.splice(favoriteCharacterIndex, 1);
     };
 
-    const handleSelection = (data: any) => {
+    const handleSelection = (data: FetchedData) => {
       if (isAllCharactersTab.value) {
         return data.favorite ? removeFromFavorites(data) : addToFavorites(data);
       }
@@ -173,7 +163,7 @@ export default defineComponent({
       currentPage = event.page;
       pageCount = event.pageCount;
 
-      if(pageCount - 1 === currentPage && isAllCharactersTab.value) {
+      if (pageCount - 1 === currentPage && isAllCharactersTab.value) {
         pageNumber++;
         refetch({ pageNumber })
       }
