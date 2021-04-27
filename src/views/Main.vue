@@ -79,6 +79,9 @@ import {
 /* Data */
 import columnsSchema from '../data/columnsSchema'
 
+/* Types */
+import { IFetchedData } from '../data/types/types'
+
 /* Prime Components */
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -89,9 +92,6 @@ import { useQuery, useResult } from '@vue/apollo-composable';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fetchCharactersQuery = require('../graphql/fetchCharacters.query.gql');
-
-/* Types */
-import { FetchedData } from '../types'
 
 export default defineComponent({
   components: {
@@ -104,8 +104,8 @@ export default defineComponent({
     const searchBy: any = inject('searchBy', 'name'),
           searchValue: any = inject('searchValue'),
           isAllCharactersTab = ref(true),
-          fetchedCharacters = ref<FetchedData[]>([]),
-          favoriteCharacters = ref<FetchedData[]>([]);
+          fetchedCharacters = ref<IFetchedData[]>([]),
+          favoriteCharacters = ref<IFetchedData[]>([]);
     
     let pageNumber = 1,
         { result, loading, error, refetch } = useQuery(fetchCharactersQuery, { pageNumber }),
@@ -116,7 +116,7 @@ export default defineComponent({
 
     /* Computed */
     watch(queryResults, () => {
-        const fetchedData = queryResults.value.map((queryResult: FetchedData) => ({ ...queryResult, favorite: false, episode: queryResult.episode[queryResult.episode.length - 1].episode }));
+        const fetchedData = queryResults.value.map((queryResult: IFetchedData) => ({ ...queryResult, favorite: false, episode: queryResult.episode[queryResult.episode.length - 1].episode }));
         fetchedCharacters.value.push(...fetchedData)
     })
 
@@ -127,32 +127,32 @@ export default defineComponent({
     const characters = computed(() => isAllCharactersTab.value ? fetchedCharacters.value : favoriteCharacters.value);
 
     const filteredCharacters = computed(() => {
-      return Object.values(characters.value).filter((character: FetchedData) => {
+      return Object.values(characters.value).filter((character: IFetchedData) => {
         return (character as any)[searchBy.value].toLowerCase().includes(searchValue.value.toLowerCase())
       })
     })
 
     /*Methods */
-    const findSelectedIndex = (selectedItem: FetchedData, charactersArray: Ref<FetchedData[]>) => charactersArray.value.findIndex((character: any) => character.id === selectedItem.id);
+    const findSelectedIndex = (selectedItem: IFetchedData, charactersArray: Ref<IFetchedData[]>) => charactersArray.value.findIndex((character: any) => character.id === selectedItem.id);
 
     const selectAllCharactersTab = (index: boolean) => {
       isAllCharactersTab.value = index;
     };
 
-    const addToFavorites = (data: FetchedData) => {
+    const addToFavorites = (data: IFetchedData) => {
       const index = findSelectedIndex(data, fetchedCharacters);
       fetchedCharacters.value[index].favorite = true;
       favoriteCharacters.value.push(fetchedCharacters.value[index]);
     };
 
-    const removeFromFavorites = (data: FetchedData) => {
+    const removeFromFavorites = (data: IFetchedData) => {
       const index = findSelectedIndex(data, fetchedCharacters);
       const favoriteCharacterIndex = findSelectedIndex(data, favoriteCharacters);
       fetchedCharacters.value[index].favorite = false;
       favoriteCharacters.value.splice(favoriteCharacterIndex, 1);
     };
 
-    const handleSelection = (data: FetchedData) => {
+    const handleSelection = (data: IFetchedData) => {
       if (isAllCharactersTab.value) {
         return data.favorite ? removeFromFavorites(data) : addToFavorites(data);
       }

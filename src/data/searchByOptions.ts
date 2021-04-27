@@ -1,3 +1,5 @@
+import { ISearchByOptions } from './types/types';
+
 export default [
   {
     key: 0,
@@ -11,4 +13,4 @@ export default [
     key: 2,
     label: 'Episode',
   },
-];
+] as ISearchByOptions[];

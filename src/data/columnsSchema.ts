@@ -1,4 +1,5 @@
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
+import { IColumnsSchema } from './types/types';
 
 export default ref([
   { field: 'id', header: 'Character ID' },
@@ -6,4 +7,4 @@ export default ref([
   { field: 'gender', header: 'Gender' },
   { field: 'species', header: 'Species' },
   { field: 'last-episode', header: 'Last Episode' },
-]);
+]) as Ref<IColumnsSchema[]>;

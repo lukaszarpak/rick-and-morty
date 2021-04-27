@@ -29,7 +29,7 @@ import InputText from 'primevue/inputtext';
 import searchOptions from '../data/searchByOptions';
 
 /* Types */
-import { Keys } from '../types';
+import { Keys } from '../data/types/types';
 
 export default defineComponent({
   components: {

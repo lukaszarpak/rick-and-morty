@@ -24,7 +24,7 @@ import Main from './views/Main.vue';
 import SearchBox from './components/SearchBox.vue';
 
 /* Types */
-import { Keys } from './types';
+import { Keys } from './data/types/types';
 
 export default defineComponent({
   setup() {
